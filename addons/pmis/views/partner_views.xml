@@ -1,0 +1,278 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <record id="pmis_res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">pmis.res.partner.form.inherit</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/group[1]" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//group[1]/group[1]" position="after">
+                    <group>
+
+                        <field name="contact_type" placeholder="contact Type"/>
+                        <field name="pds_id" placeholder="PDS ID"/>
+                        <field name="name_bn" placeholder="নাম"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="placeholder">Organisation</attribute>
+                </xpath>
+                <field name="child_ids" position="before">
+                    <group >
+                            <group string="Present Address">
+                                <field name="street" string="House"/>
+                                <field name="street2" string="Street/Village"/>
+                                <field name="post_office" string="Post Office"/>
+                                <field name="city" string="Thana"/>
+                                <field name="state_id" options="{'no_create': True}" string="District"
+                                       domain="[('country_id','=',country_id)]"/>
+                                <field name="country_id" options="{'no_create': True}" attrs="{'invisible':True}"/>
+                                <field name="mobile" string="Contact No." placeholder="Contact Number"/>
+                            </group>
+                            <group string="Permanent Address">
+                                <field name="per_house"/>
+                                <field name="per_street" string="Street/Village"/>
+                                <field name="per_post"/>
+                                <field name="per_thana"/>
+                                <field name="per_district" string="District" options="{'no_create': True}"
+                                       domain="[('country_id','=',per_country)]"/>
+                                <field name="per_country" options="{'no_create': True}" attrs="{'invisible':True}"/>
+                                <field name="per_phone"/>
+                            </group>
+                        </group>
+                </field>
+
+                <page name='sales_purchases' position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </page>
+
+                <page name="contact_addresses" position="after">
+                    <page name='service_details' string="Service Details" attrs="{'invisible': [('pds_id', '=', False)]}">
+                        <notebook colspan="4">
+
+                            <page name="joining_record" string="Joining Record">
+                                <group string="Joining records">
+                            <group>
+                                <field name="job_category"/>
+                                <field name="cadre_date"
+                                       attrs="{'invisible':[('job_category','!=',%(pmis_job_category_depu)d)]}"/>
+                                <field name="bcs_id"
+                                       attrs="{'invisible':[('job_category','!=',%(pmis_job_category_depu)d)]}"/>
+                                <field name="bcs_cadre"
+                                       attrs="{'invisible':[('job_category','!=',%(pmis_job_category_depu)d)]}"/>
+                                <field name="go_date"
+                                       attrs="{'invisible':[('job_category','!=',%(pmis_job_category_depu)d)]}"/>
+                            </group>
+                            <group>
+
+                                <field name="location"/>
+                            </group>
+                            <group>
+                                <field name="employer" domain="[('contact_type','=',3)]"/>
+                            </group>
+                            <group>
+                                <field name="merit_order"/>
+                            </group>
+                            <group>
+                                <field name="join_designation"/>
+                            </group>
+                            <group>
+                                <field name="joining_grade"/>
+                            </group>
+                            <group>
+                                <field name="join_date"/>
+                            </group>
+                            <group>
+                                <field name="joining_letter"/>
+                            </group>
+                            <group>
+                                <field name="circular_date"/>
+                            </group>
+                            <group>
+                                <field name="circular_copy"/>
+                            </group>
+                            <group>
+                                <field name="apt_date"/>
+                            </group>
+                            <group>
+                                <field name="apt_copy"/>
+                            </group>
+                            <group>
+                                <field name="conf_date"/>
+                            </group>
+                            <group>
+                                <field name="conf_copy"/>
+                            </group>
+                            <group>
+                                <field name="prl_date"/>
+                            </group>
+                            <group>
+                                <field name="prov_no"/>
+                            </group>
+                            <group>
+                                <field name="pv_report"/>
+                            </group>
+                            <group>
+                                <field name="medical_report"/>
+                            </group>
+
+                            <group>
+                                <field name="job_quota"/>
+                            </group>
+                            <group></group>
+                            <group attrs="{ 'invisible': [('job_quota','=',False)]}">
+                                <field name="join_quota"/>
+                            </group>
+                            <group attrs="{ 'invisible': [('job_quota','=',False)]}">
+                                <field name="quota_doc"/>
+                            </group>
+
+
+                        </group>
+                            </page>
+                            <page name="postin_record" string="Posting Record">
+                                <group string="Posting Records">
+                                    <field name="posting_records" nolabel="1" colspan="2"
+                                           context="{'default_partner_id':active_id}">
+                                        <tree editable="bottom">
+                                            <field name="designation"/>
+                                            <field name="organisation" />
+                                            <field name="location"/>
+                                            <field name="country_id"/>
+<!--                                            <field name="go_date"/>-->
+                                            <field name="joining_date"/>
+                                            <field name="till_date"/>
+                                            <field name="pay_scale"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name='promotion' string="Promotion">
+                                <group>
+                                    <group>
+                                         <field name="promotion_records">
+                                            <tree editable="bottom">
+                                                <field name="rank_id"/>
+                                                <field name="promotion_date"/>
+<!--                                                <field name="go_date"/>-->
+<!--                                                <field name="promotion_nature"/>-->
+                                                <field name="pay_scale"/>
+                                                <field name="document"/>
+
+                                            </tree>
+                                        </field>
+
+                                    </group>
+                                </group>
+                            </page>
+                            <page name='Award' string="Award">
+                                <group>
+                                    <field name="award_ids" nolabel="1" colspan="2">
+                                        <tree editable="bottom" >
+                                            <field name="name"/>
+                                            <field name="ground"/>
+                                            <field name="award_date"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="training" string="Training">
+                                <group string="Training Details">
+                            <field name="training_records" nolabel="1" colspan="2">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="institution_id" domain="[('contact_type', '=', 3)]"
+                                           context="{'default_contact_type': 3,}"/>
+                                    <field name="from_date"/>
+                                    <field name="till_date"/>
+                                    <field name="duration"/>
+                                    <field name="category_id" string="Type"/>
+                                    <field name="document"/>
+                                </tree>
+                            </field>
+                        </group>
+                            </page>
+                            <page name='action' string="Actions/Punishment">
+                                <group>
+                                    <group>
+
+                                    </group>
+                                </group>
+                            </page>
+
+                        </notebook>
+                    </page>
+                    <page name='Education_training' string="Education And Training" attrs="{'invisible': [('pds_id', '=', False)]}">
+                        <notebook>
+
+                            <page name="education" string="Education">
+                                <group string="Educational Qualification">
+                            <field name="education_records" nolabel="1" colspan="2">
+                                <tree editable="bottom">
+                                    <field name="degree" string="Examination"/>
+                                    <field name="passing_year"/>
+                                    <field name="institute_id" string="Institution/Board"
+                                           domain="[('contact_type','=',1)]" context="{'default_contact_type': 1,}"/>
+                                    <field name="roll_no" string="Roll No"/>
+                                    <field name="subject_id" domain="[('degree_ids','=',degree)]"/>
+                                    <!--                                    <field name="result_system"/>-->
+                                    <field name="result_id" string="Division/CGPA"/>
+                                    <!--                                    <field name="gpa"/>-->
+                                    <field name="distinction"/>
+                                    <field name="certificate_copy" placeholder="Certificate"/>
+                                </tree>
+                            </field>
+                        </group>
+                            </page>
+                        </notebook>
+                    </page>
+                    <page name='personal_data' string="Personal Data" attrs="{'invisible': [('is_company', '=', True)]}">
+                                <group >
+                                    <group>
+                                        <field name="nid_no" placeholder="NID"/>
+                                        <field name="dob" placeholder="Date of Birth"/>
+                                        <field name="home_district"/>
+                                        <field name="father_name" placeholder="Father's Name "/>
+                                        <field name="mother_name" placeholder="Father's Name "/>
+                                        <field name="religion"/>
+                                        <field name="gender"/>
+                                        <field name="freedom_fighter"/>
+                                    </group>
+                                    <group>
+                                        <field name="marital_status"/>
+                                        <field name="spouse" attrs="{'invisible': [('marital_status', '=', 'Maried')]}"/>
+                                        <field name="children_ids" nolabel="1" colspan="2">
+                                            <tree>
+                                                <field name="name"/>
+                                                <field name="dob"/>
+                                                <field name="sex"/>
+                                            </tree>
+
+                                        </field>
+                                    </group>
+                                </group>
+                    </page>
+                </page>
+
+        </field>
+    </record>
+        <!--<record id="pmis.accounting_res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">pmis.accounting.res.partner.form.inherit</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+               <page name='accounting' position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </page>
+            </field>
+
+    </record>-->
+
+
+</data>
+        </odoo>
