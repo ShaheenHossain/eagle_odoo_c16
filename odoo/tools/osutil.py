@@ -4,9 +4,8 @@
 """
 Some functions related to the os and os.path module
 """
-import tempfile
-import logging
-
+#import tempfile
+#import logging
 
 import os
 import re
@@ -15,15 +14,14 @@ import zipfile
 
 from os.path import join as opj
 
+#from contextlib import contextmanager
+#_logger = logging.getLogger(__name__)
 
-from contextlib import contextmanager
-_logger = logging.getLogger(__name__)
-
-@contextmanager
-def tempdir():
-    _logger.getChild('tempdir').warning("Deprecated: use tempfile.TemporaryDirectory")
-    with tempfile.TemporaryDirectory() as d:
-        yield d
+#@contextmanager
+#def tempdir():
+#    _logger.getChild('tempdir').warning("Deprecated: use tempfile.TemporaryDirectory")
+#    with tempfile.TemporaryDirectory() as d:
+#        yield d
 
 
 WINDOWS_RESERVED = re.compile(r'''
